@@ -6,4 +6,8 @@ class Post < ApplicationRecord
 
   validates :title, presence: true
   validates :body, presence: true
+
+  # Hidden is for soft deleting models
+  # Scope to fetch only "visible" records
+  scope :visible, -> { where(hidden: false) }
 end

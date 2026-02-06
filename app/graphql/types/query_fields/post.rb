@@ -36,19 +36,19 @@ module Types
 
       Types::QueryType.class_eval do
         def posts
-          ::Post.all
+          ::Post.visible
         end
 
         def post(post_id:)
-          ::Post.find(post_id)
+          ::Post.visible.find(post_id)
         end
 
         def post_comments(post_id:)
-          ::Comment.where(post_id: post_id)
+          ::Comment.visible.where(post_id: post_id)
         end
 
         def user_posts(user_id:, query:)
-          posts = ::Post.where(
+          posts = ::Post.visible.where(
             'LOWER(title) LIKE :q OR LOWER(body) LIKE :q',
             q: "%#{query.downcase}%"
           )

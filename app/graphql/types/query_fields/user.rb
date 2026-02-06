@@ -23,17 +23,19 @@ module Types
 
       Types::QueryType.class_eval do
         def users
-          ::User.all
+          ::User.visible
         end
 
         def user(user_id:)
-          ::User.find(user_id)
+          ::User.visible.find(user_id)
+        rescue ActiveRecord::RecordNotFound
+          nil
         end
 
         def search_users(query:)
           return User.none if query.blank?
 
-          users = ::User.where(
+          users = ::User.visible.where(
             'LOWER(name) LIKE :q OR LOWER(email) LIKE :q',
             q: "%#{query.downcase}%"
           ).distinct

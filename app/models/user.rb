@@ -7,4 +7,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
+
+  # Hidden is for soft deleting models
+  # Scope to fetch only "visible" records
+  scope :visible, -> { where(hidden: false) }
 end

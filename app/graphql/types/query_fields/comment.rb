@@ -15,11 +15,11 @@ module Types
 
       Types::QueryType.class_eval do
         def comments
-          ::Comment.all
+          ::Comment.visible
         end
 
         def comment(comment_id:)
-          ::Comment.find(comment_id)
+          ::Comment.visible.find(comment_id)
         end
       end
     end
