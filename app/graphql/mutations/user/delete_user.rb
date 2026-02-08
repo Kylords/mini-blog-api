@@ -10,7 +10,7 @@ module Mutations
       field :user, Types::User, null: false
 
       def resolve(user_id:)
-        current_user?(user_id)
+        current_user?(user_id: user_id)
         user = ::User.find(user_id)
         raise GraphQL::ExecutionError, 'User not Found' unless user
 

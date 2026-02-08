@@ -21,30 +21,30 @@ module Mutations
           body: body
         )
 
-        post = ::Post.find(post_id)
+        # post = ::Post.find(post_id)
 
-        comment_count = post.comments_count
+        # comment_count = post.comments_count
 
         # require 'pry'; binding.pry
-        ::PracticeSchema.subscriptions.trigger(
-          :comment_count,
-          { post_id: post_id },
-          comment_count: comment_count
-        )
+        # ::PracticeSchema.subscriptions.trigger(
+        #   :comment_count,
+        #   { post_id: post_id },
+        #   comment_count: comment_count
+        # )
 
-        notification_count = user.unread_notifications_count
+        # notification_count = user.unread_notifications_count
 
-        post_user_id = ::Post.find(post_id).user_id
-        Notification.create!(
-          user_id: post_user_id,
-          message: "#{user.name} has commented on your post."
-        )
+        # post_user_id = ::Post.find(post_id).user_id
+        # Notification.create!(
+        #   user_id: post_user_id,
+        #   message: "#{user.name} has commented on your post."
+        # )
 
-        ::PracticeSchema.subscriptions.trigger(
-          :notification_count,
-          { user_id: user_id },
-          notification_count: notification_count
-        )
+        # ::PracticeSchema.subscriptions.trigger(
+        #   :notification_count,
+        #   { user_id: user_id },
+        #   notification_count: notification_count
+        # )
 
         { comment: comment }
       end

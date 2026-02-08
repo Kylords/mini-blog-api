@@ -36,7 +36,7 @@ module Types
 
       Types::QueryType.class_eval do
         def posts
-          ::Post.visible
+          ::Post.visible.order(created_at: :desc)
         end
 
         def post(post_id:)
@@ -44,7 +44,7 @@ module Types
         end
 
         def post_comments(post_id:)
-          ::Comment.visible.where(post_id: post_id)
+          ::Comment.visible.where(post_id: post_id).order(created_at: :desc)
         end
 
         def user_posts(user_id:, query:)
@@ -55,7 +55,7 @@ module Types
 
           posts.where(user_id: user_id) if user_id
 
-          posts.order(created_at: :asc)
+          posts.order(created_at: :desc)
         end
       end
     end

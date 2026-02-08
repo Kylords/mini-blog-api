@@ -9,5 +9,5 @@ class Post < ApplicationRecord
 
   # Hidden is for soft deleting models
   # Scope to fetch only "visible" records
-  scope :visible, -> { where(hidden: false) }
+  scope :visible, -> { where(hidden: [false, nil]) }
 end

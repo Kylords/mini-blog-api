@@ -10,11 +10,11 @@ module Mutations
       argument :password, String, required: true
       argument :password_confirmation, String, required: true
 
-      field :user, Types::User, null: false
+      field :token, String, null: true
+      field :user, Types::User, null: true
+      field :errors, [String], null: true
 
       def resolve(name:, email:, password:, password_confirmation:)
-        #
-        # USING THE "!" OPERATOR AUTOMATICALLY GIVES ERRORS
         user = ::User.create!(
           name: name,
           email: email,
@@ -22,24 +22,19 @@ module Mutations
           password_confirmation: password_confirmation
         )
 
-        { user: user }
+        token = JsonWebToken.encode(user_id: user.id)
 
-        #
-        # ALTERNATIVE WAY FOR CREATE USER WITH ERROR
-        # WITHOUT USING "!" OPERATOR
-        #
-        # user = ::User.new(
-        #   name: name,
-        #   email: email,
-        #   password: password,
-        #   password_confirmation: password_confirmation
-        # )
-
-        # if user.save
-        #   { user: user, errors: [] }
-        # else
-        #   { user: nil, errors: user.errors.full_messages }
-        # end
+        {
+          token: token,
+          user: user,
+          errors: []
+        }
+      rescue ActiveRecord::RecordInvalid => e
+        {
+          token: nil,
+          user: nil,
+          errors: e.record.errors.full_messages
+        }
       end
     end
   end

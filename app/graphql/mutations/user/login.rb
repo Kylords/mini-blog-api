@@ -10,7 +10,7 @@ module Mutations
 
       field :token, String, null: true
       field :user, Types::User, null: true
-      field :errors, [String], null: false
+      field :errors, [String], null: true
 
       def resolve(email:, password:)
         user = ::User.find_by(email: email)

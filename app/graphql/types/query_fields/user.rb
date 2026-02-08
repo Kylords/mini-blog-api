@@ -23,7 +23,7 @@ module Types
 
       Types::QueryType.class_eval do
         def users
-          ::User.visible
+          ::User.visible.order(created_at: :desc)
         end
 
         def user(user_id:)
@@ -36,7 +36,7 @@ module Types
           return User.none if query.blank?
 
           users = ::User.visible.where(
-            'LOWER(name) LIKE :q OR LOWER(email) LIKE :q',
+            'LOWER(name) LIKE :q',
             q: "%#{query.downcase}%"
           ).distinct
 

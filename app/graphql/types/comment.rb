@@ -8,5 +8,11 @@ module Types
     field :user_id, ID, null: false
     field :post, Types::Post, null: false
     field :post_id, ID, null: false
+
+    def body
+      ActionController::Base.helpers.sanitize(
+        object.body, tags: [], attributes: []
+      )
+    end
   end
 end

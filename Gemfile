@@ -71,3 +71,5 @@ gem 'jwt'
 gem 'pry'
 
 gem 'graphiql-rails', group: :development
+
+gem 'rack-cors'
