@@ -21,6 +21,8 @@ module Mutations
           body: body
         )
 
+        MiniBlogApiSchema.subscriptions.trigger(:post_created, {}, post)
+
         { post: post, errors: [] }
       rescue ActiveRecord::RecordInvalid => e
         {
