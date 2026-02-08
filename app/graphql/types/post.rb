@@ -14,7 +14,7 @@ module Types
     field :comment_count, Int, null: false
 
     def comment_count
-      object.comments.count
+      object.comments.visible.count
     end
 
     def visible_comments
