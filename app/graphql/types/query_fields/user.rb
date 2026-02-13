@@ -3,7 +3,7 @@
 module Types
   module QueryFields
     class User < Types::BaseObject
-      field :users, [Types::User], null: false
+      field :users, Types::User.connection_type, null: false
 
       field :user,
             Types::User,
@@ -14,7 +14,7 @@ module Types
             end
 
       field :search_users,
-            [Types::User],
+            Types::User.connection_type,
             null: true do
               argument :query,
                        String,

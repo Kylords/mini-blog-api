@@ -8,7 +8,10 @@ module Types
     field :user, Types::User, null: false
     field :user_id, ID, null: false
     field :comments, [Types::Comment], null: true
-    field :visible_comments, [Types::Comment], null: true
+    field :visible_comments, Types::Comment.connection_type, null: true do
+      argument :first, Int, required: false, default_value: 10
+      argument :after, String, required: false
+    end
     field :user, Types::User, null: false
 
     field :comment_count, Int, null: false
@@ -17,8 +20,8 @@ module Types
       object.comments.visible.count
     end
 
-    def visible_comments
-      object.comments.visible
+    def visible_comments(**_args)
+      object.comments.visible.order(created_at: :asc)
     end
 
     def body

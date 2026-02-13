@@ -3,7 +3,7 @@
 module Types
   module QueryFields
     class Post < Types::BaseObject
-      field :posts, [Types::Post], null: false
+      field :posts, Types::Post.connection_type, null: false
 
       field :post,
             Types::Post,
@@ -24,7 +24,7 @@ module Types
       # UI is there is a dropdown for list of users (user_id)
       # Search for Title
       field :user_posts,
-            [Types::Post],
+            Types::Post.connection_type,
             null: true do
               argument :user_id,
                        ID,
