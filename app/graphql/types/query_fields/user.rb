@@ -18,7 +18,7 @@ module Types
             null: true do
               argument :query,
                        String,
-                       required: true
+                       required: false
             end
 
       Types::QueryType.class_eval do
@@ -33,7 +33,8 @@ module Types
         end
 
         def search_users(query:)
-          return User.none if query.blank?
+          # require 'pry'; binding.pry
+          # return nil if query.blank?
 
           users = ::User.visible.where(
             'LOWER(name) LIKE :q',

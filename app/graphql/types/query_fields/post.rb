@@ -3,7 +3,9 @@
 module Types
   module QueryFields
     class Post < Types::BaseObject
-      field :posts, Types::Post.connection_type, null: false
+      field :posts, Types::Post.connection_type, null: false do
+        argument :user_id, ID, required: false
+      end
 
       field :post,
             Types::Post,
@@ -35,8 +37,12 @@ module Types
             end
 
       Types::QueryType.class_eval do
-        def posts
-          ::Post.visible.order(created_at: :desc)
+        def posts(user_id: nil)
+          scope = ::Post.visible.includes(:user).order(created_at: :desc)
+
+          scope = scope.where(user_id: user_id) if user_id.present?
+
+          scope
         end
 
         def post(post_id:)
