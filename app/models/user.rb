@@ -7,8 +7,17 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
+  has_many :notifications, dependent: :destroy
 
   # Hidden is for soft deleting models
   # Scope to fetch only "visible" records
   scope :visible, -> { where(hidden: [false, nil]) }
+
+  def create_notification(message:, notifiable:)
+    ::Notification.create!(
+      user_id: id,
+      message: message,
+      notifiable: notifiable
+    )
+  end
 end

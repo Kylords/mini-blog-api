@@ -4,6 +4,7 @@ module Types
   class QueryType < Types::BaseObject
     multiple_fields Types::QueryFields::User,
                     Types::QueryFields::Post,
-                    Types::QueryFields::Comment
+                    Types::QueryFields::Comment,
+                    Types::QueryFields::Notification
   end
 end

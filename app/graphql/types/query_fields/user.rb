@@ -3,7 +3,7 @@
 module Types
   module QueryFields
     class User < Types::BaseObject
-      field :users, [Types::User], null: false
+      field :users, Types::User.connection_type, null: false
 
       field :user,
             Types::User,
@@ -14,11 +14,11 @@ module Types
             end
 
       field :search_users,
-            [Types::User],
+            Types::User.connection_type,
             null: true do
               argument :query,
                        String,
-                       required: true
+                       required: false
             end
 
       Types::QueryType.class_eval do
@@ -33,7 +33,8 @@ module Types
         end
 
         def search_users(query:)
-          return User.none if query.blank?
+          # require 'pry'; binding.pry
+          # return nil if query.blank?
 
           users = ::User.visible.where(
             'LOWER(name) LIKE :q',

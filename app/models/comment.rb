@@ -2,7 +2,8 @@
 
 class Comment < ApplicationRecord
   belongs_to :user
-  # belongs_to :post, counter_cache: true
+  belongs_to :post
+  has_many :notifications, as: :notifiable
 
   validates :body, presence: true
 
