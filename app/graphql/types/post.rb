@@ -12,7 +12,6 @@ module Types
       argument :first, Int, required: false, default_value: 10
       argument :after, String, required: false
     end
-    field :user, Types::User, null: false
 
     field :comment_count, Int, null: false
 

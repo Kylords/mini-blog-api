@@ -7,5 +7,6 @@ module Types
     field :email, String, null: false
     field :comments, [Types::Comment], null: true
     field :posts, [Types::Post], null: true
+    field :unread_notifications_count, Int, null: true
   end
 end

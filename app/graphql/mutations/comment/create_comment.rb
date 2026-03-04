@@ -21,6 +21,31 @@ module Mutations
           body: body
         )
 
+        post = ::Post.find(post_id)
+        post_user = post.user
+
+        if post_user.id != user.id
+          notification = post_user.create_notification(
+            message: "#{user.name} commented on your Post: #{post.title}",
+            notifiable: comment
+          )
+
+          # MiniBlogApiSchema.subscriptions.trigger(
+          #   :unread_notification_count,
+          #   { user_id: post_user.id },
+          #   scope: post_user.id
+          # )
+
+          MiniBlogApiSchema.subscriptions.trigger(
+            :unread_notification_count,
+            {
+              user_id: post_user.id
+            },
+            notification: notification
+            # scope: post_user.id
+          )
+        end
+
         { comment: comment }
       end
     end
