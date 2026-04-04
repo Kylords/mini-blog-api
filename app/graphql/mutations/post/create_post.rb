@@ -14,12 +14,24 @@ module Mutations
       def resolve(title:, body:)
         authenticate_user!
 
-        user_id = context[:current_user].id
-        post = ::Post.create!(
-          user_id: user_id,
-          title: title,
-          body: body
-        )
+        post = nil
+
+        ActiveRecord::Base.transaction do
+          user_id = context[:current_user].id
+
+          post = ::Post.create!(
+            user_id: user_id,
+            title: title,
+            body: body
+          )
+
+          summary = AiSummaryService.generate_summary(
+            content: post.body,
+            title: post.title
+          )
+
+          post.update!(summary: summary)
+        end
 
         MiniBlogApiSchema.subscriptions.trigger(:post_created, {}, post)
 
