@@ -75,5 +75,8 @@ gem 'graphiql-rails', group: :development
 gem 'rack-cors'
 
 group :development, :test do
-  gem 'rspec-rails' # for Rails 7+, adjust if needed
+  gem 'dotenv-rails'
+  gem 'rspec-rails'
 end
+
+gem 'faraday'
